@@ -3,7 +3,7 @@ const { body, validationResult } = require("express-validator");
 const { validateToken, handleErrors } = require("../middlewares");
 const router = require("express").Router();
 
-router.get("/", [validateToken], async (req, res) => {
+router.get("/", [validateToken], async (req, res, next) => {
   try {
     const forms = await FormModel.find();
     res.json(forms);
@@ -12,7 +12,7 @@ router.get("/", [validateToken], async (req, res) => {
   }
 });
 
-router.get("/:id", [validateToken], async (req, res) => {
+router.get("/:id", [validateToken], async (req, res, next) => {
   try {
     const form = await FormModel.findOne({ _id: req.params.id });
     res.json(form);
@@ -31,7 +31,7 @@ router.post(
   body("message").notEmpty(),
   body("email").isEmail(),
   handleErrors,
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const form = await FormModel.create(req.body);
       res.json(form);

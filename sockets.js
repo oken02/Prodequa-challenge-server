@@ -7,7 +7,7 @@ const socketLoader = (app) => {
 
   const io = new Server(server, {
     cors: {
-      origin: ["https://cruce-server.herokuapp.com"],
+      origin: ["https://prodequa-challenge.herokuapp.com/"],
       methods: ["GET", "POST"],
     },
   });
@@ -27,7 +27,7 @@ const socketLoader = (app) => {
       });
 
       socket.on("get-forms", () => {
-        socket.emit("new-forms", forms);
+        socket.emit("new-forms", forms, true);
       });
     });
   })();

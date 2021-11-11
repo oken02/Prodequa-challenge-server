@@ -19,7 +19,7 @@ router.post(
   body("email").isEmail(),
   body("password").notEmpty(),
   handleErrors,
-  async (req, res) => {
+  async (req, res, next) => {
     const { email, password } = req.body;
     try {
       const user = await UserModel.findOne({ email });
@@ -59,13 +59,16 @@ router.post(
   }
 );
 
-router.get("/validate", validateToken, async (req, res) => {
+router.get("/validate", validateToken, async (req, res, next) => {
   const { uid } = req.payload;
 
   try {
     const user = await UserModel.findOne({ _id: uid });
+    if (!user) {
+      return res.status(404).json({ ok: false, msg: "el usuario no existe" });
+    }
 
-    return res.json({
+    res.json({
       ok: true,
       msg: "validado correctamente",
       user,

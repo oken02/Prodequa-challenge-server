@@ -5,6 +5,7 @@ const cors = require("cors");
 // require("dotenv").config();
 const path = require("path");
 const routes = require("./routes");
+const { FormModel, UserModel } = require("./models");
 
 const app = express();
 
@@ -36,15 +37,14 @@ mongooseLoader()
   .catch((err) => console.log(err));
 
 // (async () => {
-// const bcrypt = require("bcrypt");
+//   const bcrypt = require("bcrypt");
 
-//   const password = await bcrypt.hash("kevin2", 12);
+//   const password = await bcrypt.hash("admin2", 12);
 
-//   await Form.create({
-//     username: "kevin1",
-//     email: "kevin1@gmail.com",
+//   await UserModel.create({
+//     username: "admin2",
+//     email: "admin2@gmail.com",
 //     password,
-//     role: "admin",
 //   });
 //   console.log("CREATEDD");
 // })();
