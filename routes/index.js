@@ -1,7 +1,9 @@
+const formRouter = require("./forms.routes");
+const authRouter = require("./auth.routes");
+
 const router = require("express").Router();
 
-const FormRouter = require("./forms.routes");
-
-router.use("/forms", FormRouter);
+router.use("/forms", formRouter);
+router.use("/auth", authRouter);
 
 module.exports = router;

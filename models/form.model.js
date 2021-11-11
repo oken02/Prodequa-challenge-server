@@ -1,15 +1,15 @@
 const { Schema, model } = require("mongoose");
 
 const formSchema = new Schema({
-  name: String,
-  size: String,
-  fullName: String,
-  reason: String,
-  position: String,
-  need: String,
-  phone: Number,
-  message: String,
-  email: String,
+  name: { type: String, required: true },
+  size: { type: String, required: true },
+  fullName: { type: String, required: true },
+  reason: { type: String, required: true },
+  position: { type: String, required: true },
+  need: { type: String, required: true },
+  phone: { type: Number, required: true },
+  message: { type: String, required: true },
+  email: { type: String, required: true },
 });
 
 const Form = model("Form", formSchema);

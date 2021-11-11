@@ -1,30 +1,26 @@
 const { FormModel } = require("../models");
 const { body, validationResult } = require("express-validator");
+const { validateToken, handleErrors } = require("../middlewares");
 const router = require("express").Router();
 
-// router.get("/",(req,res)=>{
-//     res.json()
-// })
-
-router.get("/", async (req, res) => {
-  const forms = await FormModel.find();
-  res.json(forms);
+router.get("/", [validateToken], async (req, res) => {
+  try {
+    const forms = await FormModel.find();
+    res.json(forms);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get("/:id", async (req, res) => {
-  const form = await FormModel.findOne({ _id: req.params.id });
-  res.json(form);
+router.get("/:id", [validateToken], async (req, res) => {
+  try {
+    const form = await FormModel.findOne({ _id: req.params.id });
+    res.json(form);
+  } catch (error) {
+    next(error);
+  }
 });
 
-// {
-//   fullName: "",
-//   reason: "",
-//   position: "",
-//   need: "",
-//   phone: "",
-//   message: "",
-//   email: "",
-// }
 router.post(
   "/",
   body("fullName").notEmpty(),
@@ -34,15 +30,14 @@ router.post(
   body("phone").isNumeric(),
   body("message").notEmpty(),
   body("email").isEmail(),
+  handleErrors,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+    try {
+      const form = await FormModel.create(req.body);
+      res.json(form);
+    } catch (error) {
+      next(error);
     }
-
-    const { body } = req;
-    const form = await FormModel.create(body);
-    res.json(form);
   }
 );
 
